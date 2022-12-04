@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>Simulation of Light with Refraction</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+<script>
+// set canvas dimensions
+var canvas = document.getElementById("canvas");
+canvas.width = 600;
+canvas.height = 600;
+var ctx = canvas.getContext("2d");
+  // create 3D coordinates for the glass ball
+  var ball = {
+    x: 200,
+    y: 200,
+    z: 50,
+    radius: 50
+  };
+
+  // create 3D coordinates for the light source
+  var light = {
+    x: 0,
+    y: 0,
+    z: 100
+  };
+
+  // calculate angle of incidence and refraction
+  var angleOfIncidence = Math.atan2(light.z - ball.z, light.x - ball.x);
+  var angleOfRefraction = Math.asin(1 / 1.5 * Math.sin(angleOfIncidence));
+
+  // draw the glass ball
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+  ctx.fillStyle = "rgba(0, 0, 255, 0.5)";
+  ctx.fill();
+
+  // draw the light source
+  ctx.beginPath();
+  ctx.arc(light.x, light.y, 10, 0, 2 * Math.PI);
+  ctx.fillStyle = "yellow";
+  ctx.fill();
+
+  // draw the incident light ray
+  ctx.beginPath();
+  ctx.moveTo(light.x, light.y);
+  ctx.lineTo(ball.x + ball.radius * Math.cos(angleOfIncidence), ball.y + ball.radius * Math.sin(angleOfIncidence));
+  ctx.strokeStyle = "yellow";
+  ctx.stroke();
+
+  // draw the refracted light ray
+  ctx.beginPath();
+  ctx.moveTo(ball.x + ball.radius * Math.cos(angleOfIncidence), ball.y + ball.radius * Math.sin(angleOfIncidence));
+  ctx.lineTo(ball.x + ball.radius * Math.cos(angleOfRefraction), ball.y + ball.radius * Math.sin(angleOfRefraction));
+  ctx.strokeStyle = "yellow";
+  ctx.stroke();
+</script>
+</body>
+</html>
